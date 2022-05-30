@@ -7,6 +7,8 @@ import { AddCustomerComponent } from './customer/add-customer/add-customer.compo
 import { EditCustomerComponent } from './customer/edit-customer/edit-customer.component';
 import { ListCustomerComponent } from './customer/list-customer/list-customer.component';
 import { DeleteCustomerComponent } from './customer/delete-customer/delete-customer.component';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -14,11 +16,14 @@ import { DeleteCustomerComponent } from './customer/delete-customer/delete-custo
     AddCustomerComponent,
     EditCustomerComponent,
     ListCustomerComponent,
-    DeleteCustomerComponent
+    DeleteCustomerComponent,
+
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
