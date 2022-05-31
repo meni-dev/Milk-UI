@@ -8,12 +8,8 @@ import { CustomerService } from 'src/app/services/customer.service';
   styleUrls: ['./add-customer.component.css']
 })
 export class AddCustomerComponent implements OnInit {
-  customerCode!: string;
-  customerName: string = '';
-  mobileNumber!: number;
-  street: string = '';
-  village: string = '';
-  isActive: boolean = true;
+
+  customer: Customer = new Customer();
 
   //error variable
   hasNameError: boolean = false;
@@ -30,7 +26,7 @@ export class AddCustomerComponent implements OnInit {
         var resp = <CodeResponse>response;
 
         if (resp.status == true) {
-          this.customerCode = resp.data;
+          this.customer.customerCode = resp.data;
         }
         else {
           // redirection url
@@ -39,29 +35,29 @@ export class AddCustomerComponent implements OnInit {
   }
   onSubmit() {
 
-    if (this.customerName.length == 0) {
+    if (this.customer.customerName.length == 0) {
       this.hasNameError = true;
     } else {
       this.hasNameError = false;
     }
 
-    if (this.mobileNumber == undefined || this.mobileNumber == null) {
+    if (this.customer.phoneNumber == undefined || this.customer.phoneNumber == null) {
       this.hasNumberError = true;
     } else {
-      if (this.mobileNumber.toString().length == 10) {
+      if (this.customer.phoneNumber.toString().length == 10) {
         this.hasNumberError = false;
       } else {
         this.hasNumberError = true;
       }
     }
 
-    if (this.village.length == 0) {
+    if (this.customer.village.length == 0) {
       this.hasVillageError = true;
     } else {
       this.hasVillageError = false;
     }
 
-    if (this.street.length == 0) {
+    if (this.customer.streetName.length == 0) {
       this.hasStreetError = true;
     } else {
       this.hasStreetError = false;
@@ -70,17 +66,19 @@ export class AddCustomerComponent implements OnInit {
 
     if (this.hasNameError == false && this.hasNameError == false
       && this.hasVillageError == false && this.hasStreetError == false) {
-      this.customerService.postCustomer();
+      this.customerService.postCustomer(this.customer).subscribe(response => {
+
+        console.log(response)
+      });
     }
 
   }
   resetform() {
-    this.customerCode = ''
-    this.customerName = ''
-    this.mobileNumber = 0
-    this.street = ''
-    this.village = ''
-    this.isActive = true;
+    this.customer.customerName = ''
+    this.customer.phoneNumber = ''
+    this.customer.streetName = ''
+    this.customer.village = ''
+    this.customer.isActive = true;
   }
 
 }
@@ -89,6 +87,16 @@ export class AddCustomerComponent implements OnInit {
 class CodeResponse {
   status!: boolean;
   data: string = '';
+}
+
+export class Customer {
+  customerCode: string = '';
+  customerName: string = '';
+  phoneNumber!: string;
+  village: string = '';
+  streetName: string = '';
+  isActive: boolean = true;
+
 }
 
 
